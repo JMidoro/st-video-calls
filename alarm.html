@@ -3,17 +3,16 @@
     <i id="video_calls_alarm_panelheader" class="fa-solid fa-grip drag-grabber hoverglow" title="Drag"></i>
     <span>Wakeup Call</span>
   </div>
-  <div class="flex-container column" style="gap: 6px; min-width: 220px;">
-    <div>
+  <div class="video-calls-row" style="min-width: 220px;">
+    <div class="video-calls-info">
       <span class="opacity50p">Target:</span>
       <strong id="video_calls_alarm_target">--:-- --</strong>
-    </div>
-    <div>
-      <span class="opacity50p">Countdown:</span>
+      <span class="opacity50p" style="margin-left: 8px;">Countdown:</span>
       <strong id="video_calls_alarm_countdown">00:00:00</strong>
     </div>
     <div class="video-calls-controls">
       <button id="video_calls_alarm_clear" class="menu_button" type="button">Clear</button>
     </div>
   </div>
+  <div class="video-calls-resize-handle" aria-hidden="true"></div>
 </div>

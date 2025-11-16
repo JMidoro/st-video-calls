@@ -26,6 +26,19 @@
   padding-bottom: 14px;
 }
 
+#video_calls_alarm_panel {
+  width: 280px;
+  max-width: min(80vw, 420px);
+  min-width: 220px;
+  min-height: 100px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  resize: both;
+  overflow: hidden;
+  padding-right: 14px; /* reserve space for native resize handle */
+  padding-bottom: 14px;
+}
+
 #video_calls_preview video {
   width: 100%;
   height: 100%;
@@ -67,6 +80,40 @@
 }
 
 #video_calls_preview .video-calls-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 0 50%, var(--SmartThemeBorderColor) 50% 100%);
+  opacity: 0.6;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* Alarm row layout: text and Clear button inline, responsive */
+#video_calls_alarm_panel .video-calls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#video_calls_alarm_panel .video-calls-info {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+#video_calls_alarm_panel .video-calls-controls {
+  margin-top: 0;
+  width: auto;
+}
+
+#video_calls_alarm_panel .video-calls-resize-handle {
   position: absolute;
   right: 0;
   bottom: 0;

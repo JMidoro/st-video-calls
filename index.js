@@ -14,7 +14,9 @@ import { loadMovingUIState, power_user } from "../../../power-user.js";
 
 // Keep track of where your extension is located, name should match repo name
 const extensionName = "video-calls";
-const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
+// Derive served base URL and external name at runtime to avoid hard-coding folder names
+const extensionBaseUrl = new URL('.', import.meta.url).pathname; // e.g. /scripts/extensions/third-party/st-video-calls/
+const extensionExternalName = extensionBaseUrl.replace(/^\/scripts\/extensions\//, '').replace(/\/$/, ''); // e.g. third-party/st-video-calls
 const extensionSettings = extension_settings[extensionName];
 const defaultSettings = {
   hide_inline: false,
@@ -224,7 +226,7 @@ function formatCountdown(ms) {
 
 async function ensureAlarmPanel() {
   if (!document.getElementById('video_calls_alarm_panel')) {
-    const html = await renderExtensionTemplateAsync("third-party/video-calls", "alarm");
+    const html = await renderExtensionTemplateAsync(extensionExternalName, "alarm");
     $(document.body).append(html);
     loadMovingUIState();
     dragElement($("#video_calls_alarm_panel"));
@@ -360,7 +362,7 @@ async function startVideoCall() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
   try {
     if (!document.getElementById("video_calls_preview")) {
-      const previewHtml = await renderExtensionTemplateAsync("third-party/video-calls", "preview");
+      const previewHtml = await renderExtensionTemplateAsync(extensionExternalName, "preview");
       $(document.body).append(previewHtml);
       // Initialize Moving UI support
       loadMovingUIState();
@@ -524,7 +526,7 @@ async function attachWebcamSnapshotToMessage(messageId) {
 // This function is called when the extension is loaded
 jQuery(async () => {
   // This is an example of loading HTML from a file
-  const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
+  const settingsHtml = await $.get(`${extensionBaseUrl}example.html`);
 
   // Append settingsHtml to extensions_settings
   // extension_settings and extensions_settings2 are the left and right columns of the settings menu
@@ -547,7 +549,7 @@ jQuery(async () => {
   eventSource.on(event_types.APP_READY, async () => {
     try {
       if (!document.getElementById("video_calls_start")) {
-        const buttonHtml = await renderExtensionTemplateAsync("third-party/video-calls", "button");
+        const buttonHtml = await renderExtensionTemplateAsync(extensionExternalName, "button");
         $("#screen_share_wand_container").append(buttonHtml);
       }
       $(document).off("click", "#video_calls_start").on("click", "#video_calls_start", () => { if (videoCallsStream) { stopVideoCall(); } else { startVideoCall(); } });
@@ -567,6 +569,46 @@ jQuery(async () => {
         const startH = $panel.height() || 0;
         const minW = 280;
         const minH = 160;
+        const onMove = (ev) => {
+          if (!previewResizeActive) return;
+          const dx = ev.clientX - startX;
+          const dy = ev.clientY - startY;
+          const w = Math.max(minW, startW + dx);
+          const h = Math.max(minH, startH + dy);
+          $panel.css({ width: w + "px", height: h + "px" });
+        };
+        const onUp = () => {
+          if (!previewResizeActive) return;
+          previewResizeActive = false;
+          $(document).off("mousemove", onMove);
+          $(document).off("mouseup", onUp);
+          const w = $panel.width() || 0;
+          const h = $panel.height() || 0;
+          const name = $panel.attr("id");
+          if (name) {
+            power_user.movingUIState[name] = power_user.movingUIState[name] || {};
+            power_user.movingUIState[name].width = w;
+            power_user.movingUIState[name].height = h;
+            saveSettingsDebounced();
+            const { eventSource: es } = getContext();
+            es.emit('resizeUI', name);
+          }
+        };
+        $(document).on("mousemove", onMove);
+        $(document).on("mouseup", onUp);
+      });
+
+      // Alarm panel resize handler (same behavior as preview)
+      $(document).off("mousedown", "#video_calls_alarm_panel .video-calls-resize-handle").on("mousedown", "#video_calls_alarm_panel .video-calls-resize-handle", (e) => {
+        const $panel = $("#video_calls_alarm_panel");
+        if (!$panel.length) return;
+        previewResizeActive = true;
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const startW = $panel.width() || 0;
+        const startH = $panel.height() || 0;
+        const minW = 220;
+        const minH = 100;
         const onMove = (ev) => {
           if (!previewResizeActive) return;
           const dx = ev.clientX - startX;
