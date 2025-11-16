@@ -1,0 +1,12 @@
+{
+    "display_name": "Video Calls",
+    "loading_order": 9,
+    "requires": [],
+    "optional": [],
+    "generate_interceptor": "extension_VideoCalls_interceptor",
+    "js": "index.js",
+    "css": "style.css",
+    "author": "Joey Zero",
+    "version": "1.0.0",
+    "homePage": "joeyzero.com"
+}

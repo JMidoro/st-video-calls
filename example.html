@@ -1,0 +1,53 @@
+<!-- You might want to add additional HTML elements to ST. 
+    It's good practice to separate it out from your code -->
+<div class="example-extension-settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>Video Calls</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <div class="example-extension_block flex-container">
+                <input id="video_calls_hide_inline" type="checkbox" />
+                <label for="video_calls_hide_inline">Hide message attachments</label>
+            </div>
+
+            <div class="example-extension_block flex-container gap5px" style="align-items: center;">
+                <label for="video_calls_interval" style="min-width: 180px;">Auto-send interval</label>
+                <input id="video_calls_interval" type="range" min="5" max="120" step="1" value="30" />
+                <span><span id="video_calls_interval_value">30</span>s</span>
+            </div>
+
+            <div class="example-extension_block flex-container column" style="gap: 6px;">
+                <label for="video_calls_start_prompt">Start call message</label>
+                <input id="video_calls_start_prompt" class="text_pole" type="text" placeholder="[{{user}} has started a video call]" />
+            </div>
+
+            <div class="example-extension_block flex-container column" style="gap: 6px;">
+                <label for="video_calls_end_prompt">End call message</label>
+                <input id="video_calls_end_prompt" class="text_pole" type="text" placeholder="[{{user}} has ended the video call]" />
+            </div>
+
+            <div class="example-extension_block flex-container column" style="gap: 6px;">
+                <label for="video_calls_image_mode">Image sending mode</label>
+                <select id="video_calls_image_mode" class="text_pole">
+                    <option value="inline">Inline</option>
+                    <option value="captions">Captions</option>
+                </select>
+                <small class="opacity50p">Note: "Inline" requires "Send Inline Images" to be enabled in model settings and a supporting model.</small>
+            </div>
+
+            <div class="example-extension_block flex-container column" style="gap: 6px;">
+                <label for="video_calls_alarm_start_prompt">Alarm-start call message template</label>
+                <textarea id="video_calls_alarm_start_prompt" class="text_pole" style="min-height: 80px;" placeholder="[{{character}}'s alarm is going off! It's time for a video call. {{character}} initiated a video call with {{user}} to help them.\n\n{{user}} left the following note as a reminder: {{alarm_reminder}} ]"></textarea>
+            </div>
+
+            <div class="example-extension_block flex-container column" style="gap: 6px;">
+                <label for="video_calls_alarm_default_reminder">Default alarm reminder</label>
+                <textarea id="video_calls_alarm_default_reminder" class="text_pole" style="min-height: 80px;" placeholder="Hey! I'm setting an alarm for the time I need to wake up. Help me wake up, and don't stop calling until you see me front and center in the webcam!"></textarea>
+            </div>
+
+            <hr class="sysHR" />
+        </div>
+    </div>
+</div>

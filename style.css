@@ -1,0 +1,99 @@
+/* All style elements for your extension go here */
+.video-calls-overlay {
+  position: fixed;
+  right: 16px;
+  bottom: 88px;
+  z-index: 1000;
+  /* Theme-aware panel styling */
+  background: color-mix(in srgb, var(--SmartThemeBlurTintColor) 85%, transparent);
+  border: 1px solid var(--SmartThemeBorderColor);
+  border-radius: 8px;
+  padding: 8px;
+  backdrop-filter: blur(var(--SmartThemeBlurStrength));
+  box-shadow: 0 4px 16px var(--SmartThemeShadowColor);
+}
+
+#video_calls_preview {
+  width: 420px;
+  max-width: min(90vw, 560px);
+  min-width: 280px;
+  min-height: 140px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  resize: both;
+  overflow: hidden;
+  padding-right: 14px; /* reserve space for native resize handle */
+  padding-bottom: 14px;
+}
+
+#video_calls_preview video {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #000;
+  display: block;
+}
+
+.video-calls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.video-calls-controls {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  justify-content: flex-end;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Preview-specific control layout: make buttons fill and distribute evenly */
+#video_calls_preview .video-calls-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  justify-content: stretch;
+}
+
+#video_calls_preview .video-calls-controls .menu_button {
+  width: 100%;
+  white-space: nowrap;
+}
+
+#video_calls_preview .video-calls-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 0 50%, var(--SmartThemeBorderColor) 50% 100%);
+  opacity: 0.6;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* No extra padding needed on controls; preview padding reserves handle area */
+
+.video-calls-controls-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  justify-content: flex-end;
+}
+
+/* Hide message attachments (images, videos, files) when the setting is enabled */
+.video-calls-hide-attachments .mes_img_container,
+.video-calls-hide-attachments .mes_video_container,
+.video-calls-hide-attachments .mes_file_container {
+  display: none !important;
+}
+.video-calls-hide-attachments .mes_text {
+  display: block !important;
+}

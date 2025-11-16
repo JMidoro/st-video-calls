@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "allowUmdGlobalAccess": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "typeAcquisition": {
+    "include": [
+      "jquery",
+      "toastr",
+      "dompurify"
+    ]
+  }
+}
